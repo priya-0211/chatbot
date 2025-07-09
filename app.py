@@ -3,33 +3,33 @@ import google.generativeai as genai
 import PyPDF2
 import requests
 from io import BytesIO
+import re
 
 app = Flask(__name__)
 
-# ?? Configure Gemini
+# ✅ Configure Gemini
 genai.configure(api_key="AIzaSyBZMgmYKkduWGWp_USHQ4SsiPOw1glOCmg")
 
-# ?? Your Google Drive PDF link (change FILE_ID)
+# ✅ Google Drive PDF link
 pdf_drive_link = "https://drive.google.com/uc?export=download&id=1FNkl1Ny-mIKlxSLzWtwlUq-Hk9h4tD33"
 
-# ?? Function to download and extract PDF text
+# ✅ Function to extract PDF text
 def extract_pdf_text(pdf_url):
     response = requests.get(pdf_url)
     pdf_file = BytesIO(response.content)
-
     reader = PyPDF2.PdfReader(pdf_file)
     text = ""
     for page in reader.pages:
         text += page.extract_text() + "\n"
     return text
 
-# ?? Load the PDF text once when app starts
+# ✅ Load PDF on start
 pdf_text = extract_pdf_text(pdf_drive_link)
 
-# Create Gemini model
+# ✅ Load Gemini model
 model = genai.GenerativeModel("gemini-2.0-flash")
 
-# ?? Web UI
+# ✅ Web UI template
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -86,12 +86,20 @@ HTML_TEMPLATE = """
         input[type="submit"]:hover {
             background-color: #3498db;
         }
-        .answer {
+        .qa-section {
             margin-top: 20px;
             background-color: #ecf0f1;
             padding: 20px;
-            border-radius: 5px;
+            border-radius: 10px;
             line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .qa-block {
+            margin-bottom: 15px;
+        }
+        .qa-text {
+            text-align: justify;
+            margin-top: 8px;
         }
     </style>
 </head>
@@ -106,12 +114,17 @@ HTML_TEMPLATE = """
             <input type="submit" value="Ask">
         </form>
 
-        {% if answer %}
-        <div class="answer" style="white-space: pre-wrap;">
-            <strong>Answer:</strong><br>
-            {{ answer }}
+        {% if question and answer %}
+        <div class="qa-section">
+            <div class="qa-block">
+                <strong>Question:</strong>
+                <div class="qa-text">{{ question }}</div>
+            </div>
+            <div class="qa-block">
+                <strong>Answer:</strong>
+                <div class="qa-text">{{ answer }}</div>
+            </div>
         </div>
-
         {% endif %}
     </div>
 
@@ -119,50 +132,47 @@ HTML_TEMPLATE = """
 </html>
 """
 
-
-
-
+# ✅ Route logic
 @app.route("/", methods=["GET", "POST"])
 def chatbot():
     answer = None
+    question = None
+
     if request.method == "POST":
         question = request.form["question"]
-        
-        # Create prompt combining PDF content and question
+
         prompt = f"""
-        You are an expert assistant. The following is content from a PDF document:
+You are a helpful assistant. The following is extracted from a PDF document:
 
-        {pdf_text[:12000]}  # Limit context to 12,000 characters to stay within prompt limits
+{pdf_text[:12000]}
 
-        Based on this document, answer the following question in a clear, detailed, and ordered manner. 
-        Please structure your answer as a numbered list of points or steps, if appropriate.
-        **Do not use any HTML tags in your response. Only plain text.**
-        
-        Question:
-        {question}
-        """
+Answer the question below based strictly on the document content, using plain text only.
+Avoid repeating the question. Do not include HTML tags or extra numbering if already numbered.
+
+Question: {question}
+"""
 
         try:
-         response = model.generate_content(prompt)
-         answer = response.text
+            response = model.generate_content(prompt)
+            answer = response.text
 
-    # Remove any leftover HTML tags (just in case)
-         import re
-         answer = re.sub(r'<.*?>', '', answer)
+            # Strip HTML if any
+            answer = re.sub(r'<[^>]+>', '', answer)
 
-    # Split and number
-         lines = answer.split("\n")
-         lines = [line.strip() for line in lines if line.strip()]
-         formatted_answer = ""
-         for idx, line in enumerate(lines, start=1):
-              formatted_answer += f"{idx}. {line}\n"
-         answer = formatted_answer
+            # Clean and renumber lines
+            lines = [line.strip() for line in answer.splitlines() if line.strip()]
+            formatted = ""
+            for i, line in enumerate(lines, start=1):
+                if not re.match(r"^\d+\.", line):  # skip if already numbered
+                    line = f"{i}. {line}"
+                formatted += line + "\n"
+            answer = formatted.strip()
 
         except Exception as e:
-         answer = f"An error occurred: {str(e)}"
+            answer = f"An error occurred: {str(e)}"
 
-        
-    return render_template_string(HTML_TEMPLATE, answer=answer)
+    return render_template_string(HTML_TEMPLATE, question=question, answer=answer)
 
+# ✅ Run app
 if __name__ == "__main__":
     app.run(debug=True)
