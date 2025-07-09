@@ -95,32 +95,34 @@ HTML_TEMPLATE = """
             background-color: #3498db;
         }
 
-        .qa-section {
-            margin: 10px 0;
-            background-color: #ecf0f1;
-            padding: 12px 16px;
-            border-radius: 10px;
-            line-height: 1.5;
-            white-space: pre-wrap;
-        }
+       .qa-section {
+    margin: 10px 0;
+    background-color: #ecf0f1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
 
-        .qa-block {
-            margin-bottom: 8px;
-        }
+.qa-block {
+    margin: 0; /* remove all margins between blocks */
+    padding: 0;
+}
 
-        .qa-block strong {
-            display: block;
-            margin: 0;
-            padding: 0;
-            font-weight: bold;
-            color: #000;
-        }
+.qa-block strong {
+    display: inline; /* keeps heading inline with content */
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    padding: 0;
+}
 
-        .qa-text {
-            text-align: justify;
-            margin: 0;
-            padding: 0;
-        }
+.qa-text {
+    display: inline; /* answer appears directly after heading */
+    margin-left: 6px; /* small space after label */
+    text-align: justify;
+}
+
     </style>
 </head>
 <body>
