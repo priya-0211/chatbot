@@ -50,32 +50,33 @@ HTML_TEMPLATE = """
             font-weight: bold;
         }
         .container {
-            margin: 50px auto;
+            margin: 20px auto; /* reduced from 50px */
             width: 60%;
             background-color: #ffffff;
-            padding: 30px;
+            padding: 20px; /* reduced from 30px */
             border-radius: 10px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         h2 {
             text-align: center;
             color: #333;
+            margin-bottom: 15px;
         }
         form {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* reduced */
         }
         input[type="text"] {
             width: 70%;
-            padding: 12px;
+            padding: 10px; /* reduced */
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
-            margin-right: 10px;
+            margin-right: 8px;
         }
         input[type="submit"] {
-            padding: 12px 20px;
+            padding: 10px 16px; /* reduced */
             background-color: #2980b9;
             color: white;
             border: none;
@@ -87,19 +88,19 @@ HTML_TEMPLATE = """
             background-color: #3498db;
         }
         .qa-section {
-            margin-top: 20px;
+            margin-top: 10px; /* reduced */
             background-color: #ecf0f1;
-            padding: 20px;
+            padding: 15px; /* reduced */
             border-radius: 10px;
-            line-height: 1.6;
+            line-height: 1.4; /* tightened */
             white-space: pre-wrap;
         }
         .qa-block {
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* reduced */
         }
         .qa-text {
             text-align: justify;
-            margin-top: 8px;
+            margin-top: 4px; /* reduced */
         }
     </style>
 </head>
@@ -131,6 +132,7 @@ HTML_TEMPLATE = """
 </body>
 </html>
 """
+
 
 # ✅ Route logic
 @app.route("/", methods=["GET", "POST"])
