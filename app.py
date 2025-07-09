@@ -98,12 +98,23 @@ HTML_TEMPLATE = """
 }
 
         .qa-block {
-            margin-bottom: 10px; /* reduced */
-        }
-        .qa-text {
-            text-align: justify;
-            margin-top: 4px; /* reduced */
-        }
+    margin-bottom: 6px; /* reduce vertical space between blocks */
+}
+
+.qa-block strong {
+    display: block;
+    margin-bottom: 2px; /* reduce space after heading */
+    font-weight: bold;
+    color: #000;
+}
+
+.qa-text {
+    text-align: justify;
+    margin: 0; /* remove top space */
+    padding: 0;
+}
+
+       
     </style>
 </head>
 <body>
@@ -119,15 +130,16 @@ HTML_TEMPLATE = """
 
         {% if question and answer %}
         <div class="qa-section">
-            <div class="qa-block">
-                <strong>Question:</strong>
-                <div class="qa-text">{{ question }}</div>
-            </div>
-            <div class="qa-block">
-                <strong>Answer:</strong>
-                <div class="qa-text">{{ answer }}</div>
-            </div>
-        </div>
+    <div class="qa-block">
+        <strong>Question:</strong>
+        <div class="qa-text">{{ question }}</div>
+    </div>
+    <div class="qa-block">
+        <strong>Answer:</strong>
+        <div class="qa-text">{{ answer }}</div>
+    </div>
+</div>
+
         {% endif %}
     </div>
 
