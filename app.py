@@ -50,13 +50,14 @@ HTML_TEMPLATE = """
             font-weight: bold;
         }
         .container {
-            margin: 20px auto; /* reduced from 50px */
-            width: 60%;
-            background-color: #ffffff;
-            padding: 20px; /* reduced from 30px */
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
+    margin: 20px auto;       /* previously 50px */
+    width: 60%;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
         h2 {
             text-align: center;
             color: #333;
@@ -88,13 +89,14 @@ HTML_TEMPLATE = """
             background-color: #3498db;
         }
         .qa-section {
-            margin-top: 10px; /* reduced */
-            background-color: #ecf0f1;
-            padding: 15px; /* reduced */
-            border-radius: 10px;
-            line-height: 1.4; /* tightened */
-            white-space: pre-wrap;
-        }
+    margin: 10px 0;         /* reduced vertical space above and below */
+    background-color: #ecf0f1;
+    padding: 12px 16px;     /* reduced padding */
+    border-radius: 10px;
+    line-height: 1.5;       /* slightly tighter line spacing */
+    white-space: pre-wrap;
+}
+
         .qa-block {
             margin-bottom: 10px; /* reduced */
         }
