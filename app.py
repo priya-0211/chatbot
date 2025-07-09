@@ -41,6 +41,7 @@ HTML_TEMPLATE = """
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
+
         .navbar {
             background-color: #2c3e50;
             color: #fff;
@@ -49,35 +50,39 @@ HTML_TEMPLATE = """
             font-size: 24px;
             font-weight: bold;
         }
+
         .container {
-    margin: 20px auto;       /* previously 50px */
-    width: 60%;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+            margin: 20px auto;
+            width: 60%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
         h2 {
             text-align: center;
             color: #333;
             margin-bottom: 15px;
         }
+
         form {
             display: flex;
             justify-content: center;
-            margin-bottom: 15px; /* reduced */
+            margin-bottom: 15px;
         }
+
         input[type="text"] {
             width: 70%;
-            padding: 10px; /* reduced */
+            padding: 10px;
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
             margin-right: 8px;
         }
+
         input[type="submit"] {
-            padding: 10px 16px; /* reduced */
+            padding: 10px 16px;
             background-color: #2980b9;
             color: white;
             border: none;
@@ -85,36 +90,37 @@ HTML_TEMPLATE = """
             cursor: pointer;
             font-size: 16px;
         }
+
         input[type="submit"]:hover {
             background-color: #3498db;
         }
+
         .qa-section {
-    margin: 10px 0;         /* reduced vertical space above and below */
-    background-color: #ecf0f1;
-    padding: 12px 16px;     /* reduced padding */
-    border-radius: 10px;
-    line-height: 1.5;       /* slightly tighter line spacing */
-    white-space: pre-wrap;
-}
+            margin: 10px 0;
+            background-color: #ecf0f1;
+            padding: 12px 16px;
+            border-radius: 10px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
 
         .qa-block {
-    margin-bottom: 6px; /* reduce vertical space between blocks */
-}
+            margin-bottom: 8px;
+        }
 
-.qa-block strong {
-    display: block;
-    margin-bottom: 2px; /* reduce space after heading */
-    font-weight: bold;
-    color: #000;
-}
+        .qa-block strong {
+            display: block;
+            margin: 0;
+            padding: 0;
+            font-weight: bold;
+            color: #000;
+        }
 
-.qa-text {
-    text-align: justify;
-    margin: 0; /* remove top space */
-    padding: 0;
-}
-
-       
+        .qa-text {
+            text-align: justify;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
@@ -130,16 +136,15 @@ HTML_TEMPLATE = """
 
         {% if question and answer %}
         <div class="qa-section">
-    <div class="qa-block">
-        <strong>Question:</strong>
-        <div class="qa-text">{{ question }}</div>
-    </div>
-    <div class="qa-block">
-        <strong>Answer:</strong>
-        <div class="qa-text">{{ answer }}</div>
-    </div>
-</div>
-
+            <div class="qa-block">
+                <strong>Question:</strong>
+                <div class="qa-text">{{ question }}</div>
+            </div>
+            <div class="qa-block">
+                <strong>Answer:</strong>
+                <div class="qa-text">{{ answer }}</div>
+            </div>
+        </div>
         {% endif %}
     </div>
 
